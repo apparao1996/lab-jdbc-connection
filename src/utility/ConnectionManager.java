@@ -5,23 +5,27 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import org.omg.CORBA.portable.InputStream;
+//import org.omg.CORBA.portable.InputStream;
 
 public class ConnectionManager
 {
 	
-	public  static Connection getConnection() throws SQLException, ClassNotFoundException 
+	public  static Connection getConnection() throws SQLException, ClassNotFoundException, IOException 
 	 {
-		 Class.forName("oracle.jdbc.OracleDriver");
+		Properties prop=loadPropertiesFile();
+		
+		String driver = prop.getProperty("driver");
+		String   url= prop.getProperty("url");
+		 Class.forName(driver);
 		 Connection con;
-		 con=DriverManager.getConnection("jdbc:oracle:thin:SYSTEM/root@localhost:1521:xe","system","apparao@E9");
+		 con=DriverManager.getConnection(url,"system","apparao@E9");
 		 
 		 return con;
 	 }
-	 public   Properties  loadPropertiesFile() throws IOException 
+	 public static   Properties  loadPropertiesFile() throws IOException 
 	 {
 		 Properties prop = new Properties();
-		 InputStream in = (InputStream) ConnectionManager.class.getClassLoader().getResourceAsStream("jdbc.properties");
+		 InputStream in =   ConnectionManager.class.getClassLoader().getResourceAsStream("jdbc.properties");
 		 prop.load(in);
 		 in.close();
 		 return prop;
