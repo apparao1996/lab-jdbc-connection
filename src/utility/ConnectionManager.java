@@ -16,9 +16,11 @@ public class ConnectionManager
 		
 		String driver = prop.getProperty("driver");
 		String   url= prop.getProperty("url");
+		String user=prop.getProperty("username");
+		String password=prop.getProperty("password");
 		 Class.forName(driver);
 		 Connection con;
-		 con=DriverManager.getConnection(url,"system","apparao@E9");
+		 con=DriverManager.getConnection(url,user,password);
 		 
 		 return con;
 	 }
